@@ -77,10 +77,7 @@ class Model {
 
     getValueAsString = () => this.view.displayValueElement.textContent.split(',').join('');
 
-    getValueAsNumber = () => { // dzel es paher@ u en angamva asacner@, verevi funkcia nman kam eni sra nman
-
-        return parseFloat(this.getValueAsString());
-    }
+    getValueAsNumber = () => parseFloat(this.getValueAsString());
 
     getResultOfOperation = () => {
 
