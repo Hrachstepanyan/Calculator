@@ -35,35 +35,35 @@
                 this.digitEightElement,
                 this.digitNineElement
             ]
-        };
+        }
 
         digitsListener(handler) {
             for (let i = 0; i < this.digitElementsArray.length; ++i) {
                 this.digitElementsArray[i].addEventListener('click', () => {
                     (handler(i.toString()));
                 });
-            };
-        };
+            }
+        }
         decimalListener(handler) {
             this.decimalElement.addEventListener('click', () => {
                 handler('.');
             });
-        };
+        }
         acListener(handler) {
             this.acElement.addEventListener('click', () => {
                 handler('ac');
             });
-        };
+        }
         percentListener(handler) {
             this.percentElement.addEventListener('click', () => {
                 handler('%');
             });
-        };
+        }
         pmListener(handler) {
             this.pmElement.addEventListener('click', () => {
                 handler('+/-');
             });
-        };
+        }
         operationsListener(handler) {
 
             this.additionElement.addEventListener('click', () => {
@@ -81,13 +81,13 @@
             this.equalityElement.addEventListener('click', () => {
                 handler('=');
             });
-        };
+        }
 
         setStringAsValue = (valueAsString) => {
             if (valueAsString[valueAsString.length - 1] === '.') {
                 this.displayValueElement.textContent += '.';
                 return;
-            };
+            }
             const [wholePartOfDigit, decimalPartOfDigit] = valueAsString.split('.');
 
             if (decimalPartOfDigit) {
@@ -95,9 +95,9 @@
                     parseFloat(wholePartOfDigit).toString() + '.' + decimalPartOfDigit;
             } else {
                 this.displayValueElement.textContent = parseFloat(wholePartOfDigit).toLocaleString()
-            };
-        };
-    };
+            }
+        }
+    }
 
     class Model {
 
@@ -108,7 +108,7 @@
             this.newValue = null;
             this.savedValue = null;
             this.currentValueAsString = null;
-        };
+        }
 
         getResultOfOperation = (valueAsString) => {
 
@@ -128,7 +128,7 @@
                 this.newValue = this.savedValue * this.currentValue;
             };
             return this.newValue.toString();
-        };
+        }
 
         digitClick = (clickedDigit, valueAsString) => {
             this.currentValueAsString = valueAsString;
@@ -137,8 +137,8 @@
                 return clickedDigit;
             } else {
                 return this.currentValueAsString + clickedDigit;
-            };
-        };
+            }
+        }
         operatorClick = (operation, valueAsString) => {
             this.currentValueAsString = valueAsString;
 
@@ -146,10 +146,10 @@
                 this.savedValueAsString = this.currentValueAsString;
                 this.savedOperation = operation;
                 return;
-            };
+            }
             this.savedValueAsString = this.getResultOfOperation(valueAsString);
             this.savedOperation = operation;
-        };
+        }
 
         operationPercent(valueAsString) {
             this.currentValue = parseFloat(valueAsString);
@@ -157,11 +157,11 @@
             this.savedValueAsString = null;
             this.savedOperation = null;
             return this.newValue;
-        };
+        }
         operationAc() {
             this.savedValueAsString = null;
             this.savedOperation = null;
-        };
+        }
         operationPm(valueAsString) {
 
             this.currentValue = parseFloat(valueAsString);
@@ -169,25 +169,25 @@
 
             if (this.currentValueAsString === '-0' || this.currentValueAsString === '0') {
                 return 0;
-            };
+            }
             if (this.currentValue > 0) {
                 return ('-' + this.currentValueAsString);
             } else {
                 return (this.currentValueAsString.substring(1));
-            };
-        };
+            }
+        }
         operationEquality(valueAsString) {
             if (this.savedValueAsString) {
                 return this.getResultOfOperation(valueAsString);
-            };
-        };
+            }
+        }
         operationDecimal(valueAsString) {
             this.currentValueAsString = valueAsString;
             if (!this.currentValueAsString.includes('.')) {
                 return (this.currentValueAsString + '.');
-            };
-        };
-    };
+            }
+        }
+    }
 
     class Controller {
 
@@ -196,50 +196,50 @@
             this.model = new Model();
             this.handleDigits = this.handleDigits.bind(this);
             this.handleOperations = this.handleOperations.bind(this);
-        };
+        }
 
         handleDigits(digit) {
             console.log(this);
             this.view.setStringAsValue(this.model.digitClick(digit, this.view.displayValueElement.textContent.split(',').join('')));
-        };
+        }
         handleOperations(Operator) {
 
             console.log(this);
             if (Operator === '+') {
                 this.model.operatorClick('addition', this.view.displayValueElement.textContent.split(',').join(''));
                 this.view.setStringAsValue('0');
-            };
+            }
             if (Operator === '-') {
                 this.model.operatorClick('subtraction', this.view.displayValueElement.textContent.split(',').join(''));
                 this.view.setStringAsValue('0');
-            };
+            }
             if (Operator === '*') {
                 this.model.operatorClick('multiplication', this.view.displayValueElement.textContent.split(',').join(''));
                 this.view.setStringAsValue('0');
-            };
+            }
             if (Operator === '/') {
                 this.model.operatorClick('division', this.view.displayValueElement.textContent.split(',').join(''));
                 this.view.setStringAsValue('0');
-            };
+            }
             if (Operator === 'ac') {
                 this.model.operationAc();
                 this.view.setStringAsValue('0');
-            };
+            }
             if (Operator === '+/-') {
                 this.view.setStringAsValue(this.model.operationPm(this.view.displayValueElement.textContent.split(',').join('')));
-            };
+            }
             if (Operator === '%') {
                 this.view.setStringAsValue(this.model.operationPercent(this.view.displayValueElement.textContent.split(',').join('')).toString());
-            };
+            }
             if (Operator === '=') {
                 this.view.setStringAsValue(this.model.operationEquality(this.view.displayValueElement.textContent.split(',').join('')).toString());
                 this.model.savedValueAsString = null;
                 this.model.savedOperation = null;
-            };
+            }
             if (Operator === '.') {
                 this.view.setStringAsValue(this.model.operationDecimal(this.view.displayValueElement.textContent.split(',').join('')));
-            };
-        };
+            }
+        }
 
         start() {
             this.view.acListener(this.handleOperations);
@@ -248,17 +248,17 @@
             this.view.decimalListener(this.handleOperations);
             this.view.percentListener(this.handleOperations);
             this.view.operationsListener(this.handleOperations);
-        };
-    };
+        }
+    }
 
     class Calculator {
         constructor(Controller, Model, View) {
             this.controller = new Controller(Model, View);
-        };
+        }
         init() {
             this.controller.start();
-        };
-    };
+        }
+    }
     const calculator = new Calculator(Controller, Model, View);
     calculator.init();
 
