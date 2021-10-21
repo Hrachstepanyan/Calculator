@@ -97,6 +97,11 @@
                 this.displayValueElement.textContent = parseFloat(wholePartOfDigit).toLocaleString()
             }
         }
+
+        getDisplay = () => {
+
+            return this.displayValueElement.textContent.split(',').join('');
+        }
     }
 
     class Model {
@@ -200,25 +205,25 @@
 
         handleDigits(digit) {
             console.log(this);
-            this.view.setStringAsValue(this.model.digitClick(digit, this.view.displayValueElement.textContent.split(',').join('')));
+            this.view.setStringAsValue(this.model.digitClick(digit, this.view.getDisplay()));
         }
         handleOperations(Operator) {
 
             console.log(this);
             if (Operator === '+') {
-                this.model.operatorClick('addition', this.view.displayValueElement.textContent.split(',').join(''));
+                this.model.operatorClick('addition', this.view.getDisplay());
                 this.view.setStringAsValue('0');
             }
             if (Operator === '-') {
-                this.model.operatorClick('subtraction', this.view.displayValueElement.textContent.split(',').join(''));
+                this.model.operatorClick('subtraction', this.view.getDisplay());
                 this.view.setStringAsValue('0');
             }
             if (Operator === '*') {
-                this.model.operatorClick('multiplication', this.view.displayValueElement.textContent.split(',').join(''));
+                this.model.operatorClick('multiplication', this.view.getDisplay());
                 this.view.setStringAsValue('0');
             }
             if (Operator === '/') {
-                this.model.operatorClick('division', this.view.displayValueElement.textContent.split(',').join(''));
+                this.model.operatorClick('division', this.view.getDisplay());
                 this.view.setStringAsValue('0');
             }
             if (Operator === 'ac') {
@@ -226,18 +231,18 @@
                 this.view.setStringAsValue('0');
             }
             if (Operator === '+/-') {
-                this.view.setStringAsValue(this.model.operationPm(this.view.displayValueElement.textContent.split(',').join('')));
+                this.view.setStringAsValue(this.model.operationPm(this.view.getDisplay()));
             }
             if (Operator === '%') {
-                this.view.setStringAsValue(this.model.operationPercent(this.view.displayValueElement.textContent.split(',').join('')).toString());
+                this.view.setStringAsValue(this.model.operationPercent(this.view.getDisplay()).toString());
             }
             if (Operator === '=') {
-                this.view.setStringAsValue(this.model.operationEquality(this.view.displayValueElement.textContent.split(',').join('')).toString());
+                this.view.setStringAsValue(this.model.operationEquality(this.view.getDisplay()).toString());
                 this.model.savedValueAsString = null;
                 this.model.savedOperation = null;
             }
             if (Operator === '.') {
-                this.view.setStringAsValue(this.model.operationDecimal(this.view.displayValueElement.textContent.split(',').join('')));
+                this.view.setStringAsValue(this.model.operationDecimal(this.view.getDisplay()));
             }
         }
 
